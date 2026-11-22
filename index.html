@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>برنامه‌ریز حرفه‌ای تکالیف و امتحانات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --surface-2: #f8fafc;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-soft: #eef2ff;
+      --exam-accent: #7c3aed;
+      --exam-soft: #f5f3ff;
+      --done: #10b981;
+      --done-soft: #ecfdf5;
+      --progress: #f59e0b;
+      --progress-soft: #fffbeb;
+      --todo: #ef4444;
+      --todo-soft: #fef2f2;
+      --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+      --radius: 16px;
+    }
+
+    body.dark {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-2: #1e293b;
+      --border: #273449;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --primary: #6366f1;
+      --primary-hover: #818cf8;
+      --primary-soft: rgba(99, 102, 241, 0.16);
+      --exam-accent: #a78bfa;
+      --exam-soft: rgba(167, 139, 250, 0.15);
+      --done-soft: rgba(16, 185, 129, 0.15);
+      --progress-soft: rgba(245, 158, 11, 0.15);
+      --todo-soft: rgba(239, 68, 68, 0.15);
+      --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Vazirmatn', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.25s, color 0.25s;
+      padding-bottom: 60px;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px 16px;
+    }
+
+    /* Header */
+    header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--exam-accent));
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+    }
+
+    .brand p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .iran-clock {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 14px;
+      text-align: center;
+      min-width: 195px;
+    }
+
+    .iran-clock .time {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 1px;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .iran-clock .date {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .icon-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 13px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 700;
+      transition: all 0.2s;
+      box-shadow: var(--shadow);
+    }
+
+    .tab-btn .tab-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tab-badge {
+      background: var(--surface-2);
+      color: var(--text-muted);
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .tab-btn.active.homework {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .tab-btn.active.homework .tab-badge {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .tab-btn.active.exam {
+      border-color: var(--exam-accent);
+      background: var(--exam-soft);
+      color: var(--exam-accent);
+    }
+
+    .tab-btn.active.exam .tab-badge {
+      background: var(--exam-accent);
+      color: #fff;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .stat-card .value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-top: 4px;
+    }
+
+    .stat-card.todo .value { color: var(--todo); }
+    .stat-card.progress .value { color: var(--progress); }
+    .stat-card.done .value { color: var(--done); }
+
+    /* Toolbar */
+    .toolbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+    }
+
+    .toolbar select {
+      width: auto;
+      min-width: 145px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-primary.exam-mode {
+      background: var(--exam-accent);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    /* Cards List */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+    }
+
+    .item-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--todo);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.2s;
+    }
+
+    .item-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .item-card.status-todo { border-top-color: var(--todo); }
+    .item-card.status-in_progress { border-top-color: var(--progress); }
+    .item-card.status-done { border-top-color: var(--done); opacity: 0.88; }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .subject-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+
+    .item-card.type-exam .subject-tag {
+      background: var(--exam-soft);
+      color: var(--exam-accent);
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .item-card.status-done .card-title {
+      text-decoration: line-through;
+      color: var(--text-muted);
+    }
+
+    .priority-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .priority-high { background: var(--todo-soft); color: var(--todo); }
+    .priority-medium { background: var(--progress-soft); color: var(--progress); }
+    .priority-low { background: var(--done-soft); color: var(--done); }
+
+    .card-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .meta-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meta-row .k { color: var(--text-muted); }
+    .meta-row .v { font-weight: 700; }
+
+    .countdown {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 8px;
+      text-align: center;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+
+    .countdown.overdue {
+      background: var(--todo-soft);
+      color: var(--todo);
+    }
+
+    .countdown.finished {
+      background: var(--done-soft);
+      color: var(--done);
+    }
+
+    /* Quick 3-State Switcher */
+    .status-switcher {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .status-btn {
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-muted);
+      border-radius: 9px;
+      padding: 7px 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .status-btn.active-todo {
+      background: var(--todo);
+      border-color: var(--todo);
+      color: #fff;
+    }
+
+    .status-btn.active-in_progress {
+      background: var(--progress);
+      border-color: var(--progress);
+      color: #fff;
+    }
+
+    .status-btn.active-done {
+      background: var(--done);
+      border-color: var(--done);
+      color: #fff;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    .mini-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 6px 11px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .mini-btn.danger:hover {
+      background: var(--todo-soft);
+      border-color: var(--todo);
+      color: var(--todo);
+    }
+
+    .mini-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      background: var(--surface);
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 46px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .empty-state .emoji {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    /* Modals */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 1000;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 92vh;
+      overflow-y: auto;
+      padding: 22px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-header h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+
+    .close-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .date-time-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1.2fr 0.9fr 0.9fr 0.9fr;
+      gap: 6px;
+    }
+
+    .alarm-box {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .alarm-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .alarm-fields {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      display: none;
+    }
+
+    .alarm-fields.show {
+      display: block;
+    }
+
+    .preset-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .preset-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 5px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .preset-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    /* Alarm Ringing Modal */
+    .ring-modal {
+      text-align: center;
+      max-width: 430px;
+      border: 2px solid var(--todo);
+      animation: pulseBorder 1.2s infinite;
+    }
+
+    @keyframes pulseBorder {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45); }
+      50% { box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+    }
+
+    .ring-bell {
+      font-size: 3.4rem;
+      display: inline-block;
+      animation: shake 0.5s infinite;
+      margin-bottom: 8px;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(14deg); }
+      75% { transform: rotate(-14deg); }
+    }
+
+    .ring-msg {
+      background: var(--todo-soft);
+      color: var(--todo);
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: 700;
+      margin: 14px 0;
+      font-size: 0.98rem;
+    }
+
+    .ring-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 720px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
+      .date-time-grid { grid-template-columns: repeat(3, 1fr); }
+      .tabs { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="brand-icon">📚</div>
+        <div>
+          <h1>برنامه‌ریز تکالیف و امتحانات</h1>
+          <p>تقویم شمسی و ساعت رسمی ایران + آلارم هوشمند</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div class="iran-clock">
+          <div class="time" id="iranTime">--:--:--</div>
+          <div class="date" id="iranDate">در حال بارگذاری...</div>
+        </div>
+        <button class="icon-btn" id="testSoundBtn" title="تست صدای آلارم">🔊 تست صدا</button>
+        <button class="icon-btn" id="notifBtn" title="فعال‌سازی اعلان مرورگر">🔔 اعلان</button>
+        <button class="icon-btn" id="themeBtn" title="تغییر تم">🌙 حالت شب</button>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active homework" data-tab="homework">
+        <span class="tab-left">📝 تکالیف</span>
+        <span class="tab-badge" id="countHomework">0</span>
+      </button>
+      <button class="tab-btn exam" data-tab="exam">
+        <span class="tab-left">🎓 امتحانات</span>
+        <span class="tab-badge" id="countExam">0</span>
+      </button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">کل موارد این بخش</div>
+        <div class="value" id="statTotal">0</div>
+      </div>
+      <div class="stat-card todo">
+        <div class="label">انجام نشده</div>
+        <div class="value" id="statTodo">0</div>
+      </div>
+      <div class="stat-card progress">
+        <div class="label">در حال انجام</div>
+        <div class="value" id="statProgress">0</div>
+      </div>
+      <div class="stat-card done">
+        <div class="label">انجام شد</div>
+        <div class="value" id="statDone">0</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="جستجو در عنوان، نام درس یا توضیحات..." />
+      </div>
+      <select id="statusFilter">
+        <option value="all">همه وضعیت‌ها</option>
+        <option value="todo">انجام نشده</option>
+        <option value="in_progress">در حال انجام</option>
+        <option value="done">انجام شد</option>
+      </select>
+      <select id="sortSelect">
+        <option value="dueAsc">نزدیک‌ترین موعد</option>
+        <option value="priority">بالاترین اولویت</option>
+        <option value="newest">جدیدترین</option>
+      </select>
+      <button class="btn-primary" id="addItemBtn">➕ افزودن تکلیف جدید</button>
+    </div>
+
+    <div class="items-grid" id="itemsGrid"></div>
+  </div>
+
+  <!-- Add / Edit Modal -->
+  <div class="modal-overlay" id="itemModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">افزودن تکلیف جدید</h2>
+        <button class="close-btn" id="closeModalBtn">✕</button>
+      </div>
+      <form id="itemForm">
+        <input type="hidden" id="editId" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>بخش</label>
+            <select id="itemType">
+              <option value="homework">📝 تکلیف</option>
+              <option value="exam">🎓 امتحان</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>نام درس</label>
+            <input type="text" id="itemSubject" placeholder="مثلاً: ریاضی، فیزیک..." required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>عنوان</label>
+          <input type="text" id="itemTitle" placeholder="مثلاً: حل تمرین فصل ۳ یا امتحان میان‌ترم" required />
+        </div>
+
+        <div class="form-group">
+          <label>توضیحات (اختیاری)</label>
+          <textarea id="itemDesc" rows="2" placeholder="صفحات کتاب، نکات مهم، منابع..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>وضعیت</label>
+            <select id="itemStatus">
+              <option value="todo">🔴 انجام نشده</option>
+              <option value="in_progress">🟡 در حال انجام</option>
+              <option value="done">🟢 انجام شد</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>اولویت</label>
+            <select id="itemPriority">
+              <option value="medium">متوسط (مهم)</option>
+              <option value="high">فوری</option>
+              <option value="low">عادی</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>تاریخ شمسی و ساعت موعد (به وقت ایران)</label>
+          <div class="date-time-grid">
+            <select id="dueYear" title="سال شمسی"></select>
+            <select id="dueMonth" title="ماه شمسی"></select>
+            <select id="dueDay" title="روز"></select>
+            <select id="dueHour" title="ساعت (ایران)"></select>
+            <select id="dueMin" title="دقیقه"></select>
+          </div>
+        </div>
+
+        <div class="alarm-box">
+          <label class="alarm-toggle">
+            <span>⏰ تنظیم آلارم و پیام یادآوری (به وقت ایران)</span>
+            <input type="checkbox" id="alarmEnabled" style="width: 18px; height: 18px;" />
+          </label>
+
+          <div class="alarm-fields" id="alarmFields">
+            <div class="preset-btns">
+              <button type="button" class="preset-btn" data-offset="0">هم‌زمان با موعد</button>
+              <button type="button" class="preset-btn" data-offset="30">۳۰ دقیقه قبل</button>
+              <button type="button" class="preset-btn" data-offset="60">۱ ساعت قبل</button>
+              <button type="button" class="preset-btn" data-offset="1440">۱ روز قبل</button>
+            </div>
+
+            <div class="form-group">
+              <label>تاریخ شمسی و ساعت آلارم</label>
+              <div class="date-time-grid">
+                <select id="alarmYear" title="سال"></select>
+                <select id="alarmMonth" title="ماه"></select>
+                <select id="alarmDay" title="روز"></select>
+                <select id="alarmHour" title="ساعت"></select>
+                <select id="alarmMin" title="دقیقه"></select>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label>متن پیام یادآوری</label>
+              <input type="text" id="alarmMessage" placeholder="مثلاً: وقتشه تکلیفت رو انجام بدی!" />
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="icon-btn" id="cancelModalBtn">انصراف</button>
+          <button type="submit" class="btn-primary" id="saveItemBtn">💾 ذخیره</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alarm Ringing Modal -->
+  <div class="modal-overlay" id="ringModal">
+    <div class="modal ring-modal">
+      <div class="ring-bell">⏰</div>
+      <h2 id="ringTitle">یادآوری!</h2>
+      <p id="ringSubject" style="color: var(--text-muted); margin-top: 4px; font-size: 0.9rem;"></p>
+      <div class="ring-msg" id="ringMessage">تکلیفت رو انجام بده!</div>
+      <div class="ring-actions">
+        <button class="icon-btn" style="justify-content: center;" id="snoozeBtn">💤 ۵ دقیقه بعد یادآوری کن</button>
+        <button class="btn-primary" style="justify-content: center; background: var(--todo);" id="stopAlarmBtn">✅ متوجه شدم (توقف)</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ================== Jalali Calendar & Iran Time Utilities ==================
+    const JALALI_MONTHS = [
+      'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور',
+      'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'
+    ];
+    const PERSIAN_DAYS = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
+    const IRAN_OFFSET_MS = 3.5 * 3600 * 1000; // Asia/Tehran UTC+03:30
+
+    function gregorianToJalali(gy, gm, gd) {
+      const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+      const gy2 = gm > 2 ? gy + 1 : gy;
+      let days = 355666 + (365 * gy) + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+      let jy = -1595 + (33 * ~~(days / 12053));
+      days %= 12053;
+      jy += 4 * ~~(days / 1461);
+      days %= 1461;
+      if (days > 365) {
+        jy += ~~((days - 1) / 365);
+        days = (days - 1) % 365;
+      }
+      const jm = days < 186 ? 1 + ~~(days / 31) : 7 + ~~((days - 186) / 30);
+      const jd = 1 + (days < 186 ? days % 31 : (days - 186) % 30);
+      return [jy, jm, jd];
+    }
+
+    function jalaliToGregorian(jy, jm, jd) {
+      jy += 1595;
+      let days = -355668 + (365 * jy) + (~~(jy / 33) * 8) + ~~(((jy % 33) + 3) / 4) + jd + (jm < 7 ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
+      let gy = 400 * ~~(days / 146097);
+      days %= 146097;
+      if (days > 36524) {
+        gy += 100 * ~~(--days / 36524);
+        days %= 36524;
+        if (days >= 365) days++;
+      }
+      gy += 4 * ~~(days / 1461);
+      days %= 1461;
+      if (days > 365) {
+        gy += ~~((days - 1) / 365);
+        days = (days - 1) % 365;
+      }
+      let gd = days + 1;
+      const sal_a = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) || (gy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      let gm;
+      for (gm = 0; gm < 13 && gd > sal_a[gm]; gm++) gd -= sal_a[gm];
+      return [gy, gm, gd];
+    }
+
+    function isJalaliLeap(jy) {
+      const [gy, gm, gd] = jalaliToGregorian(jy, 12, 30);
+      const [jy2, jm2, jd2] = gregorianToJalali(gy, gm, gd);
+      return jy2 === jy && jm2 === 12 && jd2 === 30;
+    }
+
+    function jalaliMonthLength(jy, jm) {
+      if (jm <= 6) return 31;
+      if (jm <= 11) return 30;
+      return isJalaliLeap(jy) ? 30 : 29;
+    }
+
+    function jalaliIranToTimestamp(jy, jm, jd, hh, mm) {
+      const [gy, gm, gd] = jalaliToGregorian(jy, jm, jd);
+      return Date.UTC(gy, gm - 1, gd, hh, mm, 0) - IRAN_OFFSET_MS;
+    }
+
+    function timestampToJalaliIran(ts) {
+      const d = new Date(ts + IRAN_OFFSET_MS);
+      const gy = d.getUTCFullYear();
+      const gm = d.getUTCMonth() + 1;
+      const gd = d.getUTCDate();
+      const hh = d.getUTCHours();
+      const mm = d.getUTCMinutes();
+      const ss = d.getUTCSeconds();
+      const dow = d.getUTCDay();
+      const [jy, jm, jd] = gregorianToJalali(gy, gm, gd);
+      return { jy, jm, jd, hh, mm, ss, dow };
+    }
+
+    function toFaDigits(str) {
+      return String(str).replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
+    }
+
+    function pad2(n) {
+      return String(n).padStart(2, '0');
+    }
+
+    function formatJalaliDateTime(ts) {
+      const t = timestampToJalaliIran(ts);
+      return `${toFaDigits(t.jd)} ${JALALI_MONTHS[t.jm - 1]} ${toFaDigits(t.jy)} - ساعت ${toFaDigits(pad2(t.hh))}:${toFaDigits(pad2(t.mm))}`;
+    }
+
+    function formatCountdown(targetTs, status) {
+      if (status === 'done') return { text: '✅ تکمیل شده', cls: 'finished' };
+      const diff = targetTs - Date.now();
+      if (diff <= 0) {
+        const passedMin = Math.floor(Math.abs(diff) / 60000);
+        if (passedMin < 60) return { text: `⚠️ ${toFaDigits(passedMin || 1)} دقیقه از موعد گذشته`, cls: 'overdue' };
+        const passedHr = Math.floor(passedMin / 60);
+        if (passedHr < 24) return { text: `⚠️ ${toFaDigits(passedHr)} ساعت از موعد گذشته`, cls: 'overdue' };
+        return { text: `⚠️ ${toFaDigits(Math.floor(passedHr / 24))} روز از موعد گذشته`, cls: 'overdue' };
+      }
+      const totalMin = Math.floor(diff / 60000);
+      const days = Math.floor(totalMin / 1440);
+      const hours = Math.floor((totalMin % 1440) / 60);
+      const mins = totalMin % 60;
+      const parts = [];
+      if (days > 0) parts.push(`${toFaDigits(days)} روز`);
+      if (hours > 0) parts.push(`${toFaDigits(hours)} ساعت`);
+      if (days === 0 && mins > 0) parts.push(`${toFaDigits(mins)} دقیقه`);
+      if (!parts.length) parts.push('کمتر از ۱ دقیقه');
+      return { text: `⏳ ${parts.join(' و ')} باقی‌مانده`, cls: '' };
+    }
+
+    // ================== Web Audio Alarm Sound ==================
+    let audioCtx = null;
+    let alarmInterval = null;
+
+    function playBeepPattern() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const now = audioCtx.currentTime;
+        const notes = [880, 1174.66, 880, 1318.5];
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + i * 0.18);
+          gain.gain.setValueAtTime(0.001, now + i * 0.18);
+          gain.gain.exponentialRampToValueAtTime(0.28, now + i * 0.18 + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.18 + 0.16);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + i * 0.18);
+          osc.stop(now + i * 0.18 + 0.17);
+        });
+      } catch (e) {}
+    }
+
+    function startAlarmSound() {
+      stopAlarmSound();
+      playBeepPattern();
+      alarmInterval = setInterval(playBeepPattern, 1600);
+    }
+
+    function stopAlarmSound() {
+      if (alarmInterval) {
+        clearInterval(alarmInterval);
+        alarmInterval = null;
+      }
+    }
+
+    // ================== State & Storage ==================
+    const STORAGE_KEY = 'iran_study_planner_v1';
+    let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    let currentTab = 'homework';
+    let activeRingingItemId = null;
+
+    function saveItems() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    }
+
+    // ================== Populate Date/Time Selectors ==================
+    function populateDateTimeSelectors(prefix) {
+      const nowIran = timestampToJalaliIran(Date.now());
+      const ySel = document.getElementById(prefix + 'Year');
+      const mSel = document.getElementById(prefix + 'Month');
+      const dSel = document.getElementById(prefix + 'Day');
+      const hSel = document.getElementById(prefix + 'Hour');
+      const minSel = document.getElementById(prefix + 'Min');
+
+      ySel.innerHTML = '';
+      for (let y = nowIran.jy - 1; y <= nowIran.jy + 4; y++) {
+        ySel.innerHTML += `<option value="${y}">${toFaDigits(y)}</option>`;
+      }
+
+      mSel.innerHTML = '';
+      JALALI_MONTHS.forEach((name, idx) => {
+        mSel.innerHTML += `<option value="${idx + 1}">${name}</option>`;
+      });
+
+      hSel.innerHTML = '';
+      for (let h = 0; h < 24; h++) {
+        hSel.innerHTML += `<option value="${h}">ساعت ${toFaDigits(pad2(h))}</option>`;
+      }
+
+      minSel.innerHTML = '';
+      for (let m = 0; m < 60; m++) {
+        minSel.innerHTML += `<option value="${m}">دقیقه ${toFaDigits(pad2(m))}</option>`;
+      }
+
+      function updateDays() {
+        const y = parseInt(ySel.value, 10);
+        const m = parseInt(mSel.value, 10);
+        const prev = parseInt(dSel.value, 10) || 1;
+        const maxD = jalaliMonthLength(y, m);
+        dSel.innerHTML = '';
+        for (let d = 1; d <= maxD; d++) {
+          dSel.innerHTML += `<option value="${d}">${toFaDigits(d)}</option>`;
+        }
+        dSel.value = Math.min(prev, maxD);
+      }
+
+      ySel.addEventListener('change', updateDays);
+      mSel.addEventListener('change', updateDays);
+      updateDays();
+    }
+
+    function setSelectorFromTimestamp(prefix, ts) {
+      const t = timestampToJalaliIran(ts);
+      const ySel = document.getElementById(prefix + 'Year');
+      const mSel = document.getElementById(prefix + 'Month');
+      const dSel = document.getElementById(prefix + 'Day');
+      const hSel = document.getElementById(prefix + 'Hour');
+      const minSel = document.getElementById(prefix + 'Min');
+
+      ySel.value = t.jy;
+      mSel.value = t.jm;
+      mSel.dispatchEvent(new Event('change'));
+      dSel.value = t.jd;
+      hSel.value = t.hh;
+      minSel.value = t.mm;
+    }
+
+    function getTimestampFromSelector(prefix) {
+      const y = parseInt(document.getElementById(prefix + 'Year').value, 10);
+      const m = parseInt(document.getElementById(prefix + 'Month').value, 10);
+      const d = parseInt(document.getElementById(prefix + 'Day').value, 10);
+      const h = parseInt(document.getElementById(prefix + 'Hour').value, 10);
+      const min = parseInt(document.getElementById(prefix + 'Min').value, 10);
+      return jalaliIranToTimestamp(y, m, d, h, min);
+    }
+
+    // ================== Live Iran Clock ==================
+    function updateIranClock() {
+      const t = timestampToJalaliIran(Date.now());
+      document.getElementById('iranTime').textContent = `${toFaDigits(pad2(t.hh))}:${toFaDigits(pad2(t.mm))}:${toFaDigits(pad2(t.ss))}`;
+      document.getElementById('iranDate').textContent = `${PERSIAN_DAYS[t.dow]} ${toFaDigits(t.jd)} ${JALALI_MONTHS[t.jm - 1]} ${toFaDigits(t.jy)} (ایران)`;
+    }
+
+    // ================== Render UI ==================
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[m]);
+    }
+
+    function render() {
+      const hwItems = items.filter(i => i.type === 'homework');
+      const exItems = items.filter(i => i.type === 'exam');
+      document.getElementById('countHomework').textContent = toFaDigits(hwItems.length);
+      document.getElementById('countExam').textContent = toFaDigits(exItems.length);
+
+      const tabItems = currentTab === 'homework' ? hwItems : exItems;
+      document.getElementById('statTotal').textContent = toFaDigits(tabItems.length);
+      document.getElementById('statTodo').textContent = toFaDigits(tabItems.filter(i => i.status === 'todo').length);
+      document.getElementById('statProgress').textContent = toFaDigits(tabItems.filter(i => i.status === 'in_progress').length);
+      document.getElementById('statDone').textContent = toFaDigits(tabItems.filter(i => i.status === 'done').length);
+
+      const addBtn = document.getElementById('addItemBtn');
+      addBtn.textContent = currentTab === 'homework' ? '➕ افزودن تکلیف جدید' : '➕ افزودن امتحان جدید';
+      addBtn.classList.toggle('exam-mode', currentTab === 'exam');
+
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const statusFilter = document.getElementById('statusFilter').value;
+      const sortBy = document.getElementById('sortSelect').value;
+
+      let filtered = tabItems.filter(item => {
+        if (statusFilter !== 'all' && item.status !== statusFilter) return false;
+        if (q) {
+          const hay = `${item.title} ${item.subject} ${item.desc}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const prioRank = { high: 3, medium: 2, low: 1 };
+      filtered.sort((a, b) => {
+        if (sortBy === 'dueAsc') return a.dueTs - b.dueTs;
+        if (sortBy === 'priority') return prioRank[b.priority] - prioRank[a.priority];
+        return b.createdAt - a.createdAt;
+      });
+
+      const grid = document.getElementById('itemsGrid');
+      if (!filtered.length) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="emoji">${currentTab === 'homework' ? '📝' : '🎓'}</div>
+            <h3>موردی در بخش ${currentTab === 'homework' ? 'تکالیف' : 'امتحانات'} ثبت نشده است</h3>
+            <p style="margin-top:6px;font-size:0.85rem;">برای شروع روی دکمه «افزودن» کلیک کنید.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const prioLabel = { high: 'فوری', medium: 'مهم', low: 'عادی' };
+
+      grid.innerHTML = filtered.map(item => {
+        const cd = formatCountdown(item.dueTs, item.status);
+        const alarmHtml = item.alarmEnabled
+          ? `<div class="meta-row">
+               <span class="k">⏰ آلارم:</span>
+               <span class="v">${item.alarmFired ? 'پخش شد' : formatJalaliDateTime(item.alarmTs)}</span>
+             </div>`
+          : '';
+
+        return `
+          <div class="item-card status-${item.status} type-${item.type}">
+            <div class="card-top">
+              <div>
+                <span class="subject-tag">${escapeHtml(item.subject)}</span>
+                <div class="card-title">${escapeHtml(item.title)}</div>
+              </div>
+              <span class="priority-pill priority-${item.priority}">${prioLabel[item.priority]}</span>
+            </div>
+
+            ${item.desc ? `<div class="card-desc">${escapeHtml(item.desc)}</div>` : ''}
+
+            <div class="meta-box">
+              <div class="meta-row">
+                <span class="k">📅 موعد (ایران):</span>
+                <span class="v">${formatJalaliDateTime(item.dueTs)}</span>
+              </div>
+              ${alarmHtml}
+              <div class="countdown ${cd.cls}">${cd.text}</div>
+            </div>
+
+            <div class="status-switcher">
+              <button class="status-btn ${item.status === 'todo' ? 'active-todo' : ''}" onclick="setStatus('${item.id}', 'todo')">انجام نشده</button>
+              <button class="status-btn ${item.status === 'in_progress' ? 'active-in_progress' : ''}" onclick="setStatus('${item.id}', 'in_progress')">در حال انجام</button>
+              <button class="status-btn ${item.status === 'done' ? 'active-done' : ''}" onclick="setStatus('${item.id}', 'done')">انجام شد</button>
+            </div>
+
+            <div class="card-actions">
+              <button class="mini-btn" onclick="openEditModal('${item.id}')">✏️ ویرایش</button>
+              <button class="mini-btn danger" onclick="deleteItem('${item.id}')">🗑️ حذف</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ================== CRUD Actions ==================
+    window.setStatus = function(id, status) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      item.status = status;
+      saveItems();
+      render();
+    };
+
+    window.deleteItem = function(id) {
+      if (!confirm('آیا از حذف این مورد مطمئن هستید؟')) return;
+      items = items.filter(i => i.id !== id);
+      saveItems();
+      render();
+    };
+
+    const itemModal = document.getElementById('itemModal');
+    const alarmCheckbox = document.getElementById('alarmEnabled');
+    const alarmFields = document.getElementById('alarmFields');
+
+    function openAddModal() {
+      document.getElementById('editId').value = '';
+      document.getElementById('itemForm').reset();
+      document.getElementById('itemType').value = currentTab;
+      document.getElementById('modalTitle').textContent = currentTab === 'homework' ? 'افزودن تکلیف جدید' : 'افزودن امتحان جدید';
+
+      const defaultDue = Date.now() + 2 * 3600 * 1000; // 2 hours from now
+      setSelectorFromTimestamp('due', defaultDue);
+      setSelectorFromTimestamp('alarm', defaultDue - 30 * 60 * 1000);
+
+      alarmCheckbox.checked = true;
+      alarmFields.classList.add('show');
+      document.getElementById('alarmMessage').value = currentTab === 'homework'
+        ? 'وقتشه تکلیفت رو انجام بدی!'
+        : 'وقت مرور و آماده‌شدن برای امتحانه!';
+
+      itemModal.classList.add('open');
+    }
+
+    window.openEditModal = function(id) {
+      const item = items.find(i => i.id === id);
+      if (!item) return;
+      document.getElementById('editId').value = item.id;
+      document.getElementById('itemType').value = item.type;
+      document.getElementById('itemSubject').value = item.subject;
+      document.getElementById('itemTitle').value = item.title;
+      document.getElementById('itemDesc').value = item.desc || '';
+      document.getElementById('itemStatus').value = item.status;
+      document.getElementById('itemPriority').value = item.priority;
+      document.getElementById('modalTitle').textContent = item.type === 'homework' ? 'ویرایش تکلیف' : 'ویرایش امتحان';
+
+      setSelectorFromTimestamp('due', item.dueTs);
+      alarmCheckbox.checked = !!item.alarmEnabled;
+      alarmFields.classList.toggle('show', !!item.alarmEnabled);
+      setSelectorFromTimestamp('alarm', item.alarmTs || item.dueTs);
+      document.getElementById('alarmMessage').value = item.alarmMessage || 'تکلیفت رو انجام بده!';
+
+      itemModal.classList.add('open');
+    };
+
+    function closeModal() {
+      itemModal.classList.remove('open');
+    }
+
+    document.getElementById('addItemBtn').addEventListener('click', openAddModal);
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('cancelModalBtn').addEventListener('click', closeModal);
+
+    alarmCheckbox.addEventListener('change', () => {
+      alarmFields.classList.toggle('show', alarmCheckbox.checked);
+    });
+
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const offsetMin = parseInt(btn.dataset.offset, 10);
+        const dueTs = getTimestampFromSelector('due');
+        setSelectorFromTimestamp('alarm', dueTs - offsetMin * 60000);
+      });
+    });
+
+    document.getElementById('itemForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const editId = document.getElementById('editId').value;
+      const type = document.getElementById('itemType').value;
+      const dueTs = getTimestampFromSelector('due');
+      const alarmEnabled = alarmCheckbox.checked;
+      const alarmTs = alarmEnabled ? getTimestampFromSelector('alarm') : null;
+      const alarmMessage = document.getElementById('alarmMessage').value.trim() ||
+        (type === 'homework' ? 'وقتشه تکلیفت رو انجام بدی!' : 'وقت آماده‌شدن برای امتحانه!');
+
+      const data = {
+        id: editId || ('id_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7)),
+        type,
+        subject: document.getElementById('itemSubject').value.trim(),
+        title: document.getElementById('itemTitle').value.trim(),
+        desc: document.getElementById('itemDesc').value.trim(),
+        status: document.getElementById('itemStatus').value,
+        priority: document.getElementById('itemPriority').value,
+        dueTs,
+        alarmEnabled,
+        alarmTs,
+        alarmMessage,
+        alarmFired: false,
+        createdAt: Date.now()
+      };
+
+      if (editId) {
+        const idx = items.findIndex(i => i.id === editId);
+        if (idx !== -1) {
+          data.createdAt = items[idx].createdAt;
+          items[idx] = data;
+        }
+      } else {
+        items.push(data);
+      }
+
+      currentTab = type;
+      syncTabButtons();
+      saveItems();
+      render();
+      closeModal();
+    });
+
+    // ================== Alarm Engine ==================
+    function triggerAlarm(item) {
+      activeRingingItemId = item.id;
+      document.getElementById('ringTitle').textContent = item.type === 'homework'
+        ? `یادآوری تکلیف: ${item.title}`
+        : `یادآوری امتحان: ${item.title}`;
+      document.getElementById('ringSubject').textContent = `درس: ${item.subject} | موعد: ${formatJalaliDateTime(item.dueTs)}`;
+      document.getElementById('ringMessage').textContent = item.alarmMessage || 'تکلیفت رو انجام بده!';
+      document.getElementById('ringModal').classList.add('open');
+
+      startAlarmSound();
+
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(item.type === 'homework' ? '⏰ یادآوری تکلیف' : '⏰ یادآوری امتحان', {
+          body: `${item.subject} - ${item.title}\n${item.alarmMessage}`
+        });
+      }
+    }
+
+    function checkAlarms() {
+      const now = Date.now();
+      let changed = false;
+      for (const item of items) {
+        if (item.alarmEnabled && !item.alarmFired && item.status !== 'done' && item.alarmTs && now >= item.alarmTs) {
+          item.alarmFired = true;
+          changed = true;
+          triggerAlarm(item);
+          break;
+        }
+      }
+      if (changed) {
+        saveItems();
+        render();
+      }
+    }
+
+    document.getElementById('stopAlarmBtn').addEventListener('click', () => {
+      stopAlarmSound();
+      document.getElementById('ringModal').classList.remove('open');
+      activeRingingItemId = null;
+    });
+
+    document.getElementById('snoozeBtn').addEventListener('click', () => {
+      stopAlarmSound();
+      document.getElementById('ringModal').classList.remove('open');
+      if (activeRingingItemId) {
+        const item = items.find(i => i.id === activeRingingItemId);
+        if (item) {
+          item.alarmTs = Date.now() + 5 * 60000;
+          item.alarmFired = false;
+          saveItems();
+          render();
+        }
+      }
+      activeRingingItemId = null;
+    });
+
+    // ================== Tabs, Filters, Theme & Notifications ==================
+    function syncTabButtons() {
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.tab === currentTab);
+      });
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentTab = btn.dataset.tab;
+        syncTabButtons();
+        render();
+      });
+    });
+
+    document.getElementById('searchInput').addEventListener('input', render);
+    document.getElementById('statusFilter').addEventListener('change', render);
+    document.getElementById('sortSelect').addEventListener('change', render);
+
+    document.getElementById('testSoundBtn').addEventListener('click', () => {
+      playBeepPattern();
+    });
+
+    document.getElementById('notifBtn').addEventListener('click', async () => {
+      if (!('Notification' in window)) {
+        alert('مرورگر شما از اعلان (Notification) پشتیبانی نمی‌کند.');
+        return;
+      }
+      const perm = await Notification.requestPermission();
+      if (perm === 'granted') {
+        alert('اعلان‌های مرورگر با موفقیت فعال شد!');
+      } else {
+        alert('دسترسی به اعلان‌ها رد شد.');
+      }
+    });
+
+    const themeBtn = document.getElementById('themeBtn');
+    if (localStorage.getItem('planner_theme') === 'dark') {
+      document.body.classList.add('dark');
+      themeBtn.textContent = '☀️ حالت روز';
+    }
+    themeBtn.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark');
+      localStorage.setItem('planner_theme', isDark ? 'dark' : 'light');
+      themeBtn.textContent = isDark ? '☀️ حالت روز' : '🌙 حالت شب';
+    });
+
+    // ================== Init ==================
+    populateDateTimeSelectors('due');
+    populateDateTimeSelectors('alarm');
+    updateIranClock();
+    render();
+
+    setInterval(updateIranClock, 1000);
+    setInterval(checkAlarms, 1000);
+    setInterval(render, 30000);
+  </script>
+</body>
+</html>
