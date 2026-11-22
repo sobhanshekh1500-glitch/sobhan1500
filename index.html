@@ -3,49 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>برنامه‌ریز حرفه‌ای تکالیف و امتحانات</title>
+  <title>برنامه‌ریز هوشمند تکالیف و امتحانات</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #f1f5f9;
+      --bg: #f4f6fb;
       --surface: #ffffff;
       --surface-2: #f8fafc;
+      --surface-3: #eef2f7;
       --border: #e2e8f0;
       --text: #0f172a;
       --text-muted: #64748b;
       --primary: #4f46e5;
       --primary-hover: #4338ca;
-      --primary-soft: #eef2ff;
-      --exam-accent: #7c3aed;
-      --exam-soft: #f5f3ff;
+      --primary-soft: rgba(79, 70, 229, 0.1);
+      --exam: #7c3aed;
+      --exam-hover: #6d28d9;
+      --exam-soft: rgba(124, 58, 237, 0.1);
       --done: #10b981;
-      --done-soft: #ecfdf5;
+      --done-soft: rgba(16, 185, 129, 0.12);
       --progress: #f59e0b;
-      --progress-soft: #fffbeb;
+      --progress-soft: rgba(245, 158, 11, 0.14);
       --todo: #ef4444;
-      --todo-soft: #fef2f2;
-      --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
-      --radius: 16px;
+      --todo-soft: rgba(239, 68, 68, 0.12);
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.04);
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.18);
+      --radius: 18px;
+      --radius-sm: 12px;
     }
 
     body.dark {
-      --bg: #0b1120;
-      --surface: #111827;
-      --surface-2: #1e293b;
-      --border: #273449;
+      --bg: #070b14;
+      --surface: #0f172a;
+      --surface-2: #162033;
+      --surface-3: #1e293b;
+      --border: #24324a;
       --text: #f1f5f9;
       --text-muted: #94a3b8;
       --primary: #6366f1;
       --primary-hover: #818cf8;
       --primary-soft: rgba(99, 102, 241, 0.16);
-      --exam-accent: #a78bfa;
-      --exam-soft: rgba(167, 139, 250, 0.15);
-      --done-soft: rgba(16, 185, 129, 0.15);
-      --progress-soft: rgba(245, 158, 11, 0.15);
-      --todo-soft: rgba(239, 68, 68, 0.15);
-      --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      --exam: #a78bfa;
+      --exam-hover: #c4b5fd;
+      --exam-soft: rgba(167, 139, 250, 0.16);
+      --done: #34d399;
+      --done-soft: rgba(52, 211, 153, 0.15);
+      --progress: #fbbf24;
+      --progress-soft: rgba(251, 191, 36, 0.15);
+      --todo: #f87171;
+      --todo-soft: rgba(248, 113, 113, 0.15);
+      --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.25);
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
     }
 
     * {
@@ -59,14 +71,15 @@
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      transition: background 0.25s, color 0.25s;
-      padding-bottom: 60px;
+      transition: background 0.25s ease, color 0.25s ease;
+      padding-bottom: 70px;
+      line-height: 1.6;
     }
 
     .container {
-      max-width: 1120px;
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 18px 16px;
+      padding: 20px 16px;
     }
 
     /* Header */
@@ -74,47 +87,59 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 18px 22px;
+      padding: 18px 24px;
       box-shadow: var(--shadow);
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 18px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--exam), var(--done));
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
     }
 
-    .brand-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary), var(--exam-accent));
+    .brand-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, var(--primary), var(--exam));
       color: #fff;
       display: grid;
       place-items: center;
-      font-size: 22px;
-      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
       flex-shrink: 0;
     }
 
     .brand h1 {
       font-size: 1.25rem;
       font-weight: 800;
+      letter-spacing: -0.3px;
     }
 
     .brand p {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       margin-top: 2px;
     }
 
-    .header-right {
+    .header-actions {
       display: flex;
       align-items: center;
       gap: 10px;
@@ -124,35 +149,49 @@
     .iran-clock {
       background: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 8px 14px;
-      text-align: center;
-      min-width: 195px;
+      border-radius: 14px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .clock-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--done);
+      box-shadow: 0 0 0 4px var(--done-soft);
+      animation: pulseDot 2s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.25); opacity: 0.7; }
     }
 
     .iran-clock .time {
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       font-weight: 800;
       color: var(--primary);
-      letter-spacing: 1px;
       direction: ltr;
-      display: inline-block;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.2;
     }
 
     .iran-clock .date {
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
-      margin-top: 2px;
     }
 
-    .icon-btn {
+    .btn-ghost {
       background: var(--surface-2);
       border: 1px solid var(--border);
       color: var(--text);
       border-radius: 12px;
-      padding: 10px 13px;
+      padding: 9px 13px;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       display: inline-flex;
       align-items: center;
@@ -160,111 +199,345 @@
       transition: all 0.2s;
     }
 
-    .icon-btn:hover {
+    .btn-ghost:hover {
       border-color: var(--primary);
       color: var(--primary);
+      background: var(--primary-soft);
+    }
+
+    /* Next Upcoming Banner */
+    .upcoming-banner {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.08), rgba(124, 58, 237, 0.08));
+      border: 1px solid var(--border);
+      border-right: 4px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .upcoming-banner.show {
+      display: flex;
+    }
+
+    .upcoming-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+    }
+
+    .upcoming-pill {
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
     }
 
     /* Tabs */
     .tabs {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 18px;
+      gap: 14px;
+      margin-bottom: 20px;
     }
 
     .tab-btn {
       background: var(--surface);
       border: 2px solid var(--border);
       border-radius: var(--radius);
-      padding: 15px 18px;
+      padding: 16px 20px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: space-between;
       color: var(--text);
       font-size: 1rem;
-      font-weight: 700;
-      transition: all 0.2s;
-      box-shadow: var(--shadow);
+      font-weight: 800;
+      transition: all 0.22s ease;
+      box-shadow: var(--shadow-sm);
     }
 
-    .tab-btn .tab-left {
+    .tab-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .tab-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+    }
+
+    .tab-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-2);
+      font-size: 1.15rem;
+    }
+
+    .tab-sub {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-align: right;
     }
 
     .tab-badge {
-      background: var(--surface-2);
+      background: var(--surface-3);
       color: var(--text-muted);
-      padding: 4px 11px;
+      padding: 4px 12px;
       border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font-size: 0.88rem;
+      font-weight: 800;
     }
 
     .tab-btn.active.homework {
       border-color: var(--primary);
-      background: var(--primary-soft);
+      background: linear-gradient(135deg, var(--surface), var(--primary-soft));
       color: var(--primary);
+      box-shadow: 0 8px 24px rgba(79, 70, 229, 0.14);
     }
 
+    .tab-btn.active.homework .tab-icon,
     .tab-btn.active.homework .tab-badge {
       background: var(--primary);
       color: #fff;
     }
 
     .tab-btn.active.exam {
-      border-color: var(--exam-accent);
-      background: var(--exam-soft);
-      color: var(--exam-accent);
+      border-color: var(--exam);
+      background: linear-gradient(135deg, var(--surface), var(--exam-soft));
+      color: var(--exam);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.14);
     }
 
+    .tab-btn.active.exam .tab-icon,
     .tab-btn.active.exam .tab-badge {
-      background: var(--exam-accent);
+      background: var(--exam);
       color: #fff;
     }
 
-    /* Stats */
-    .stats-grid {
+    /* Analytics & Charts Section */
+    .analytics-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 18px;
+      grid-template-columns: 1fr 1.35fr;
+      gap: 16px;
+      margin-bottom: 20px;
     }
 
-    .stat-card {
+    .panel {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 14px 16px;
+      border-radius: var(--radius);
+      padding: 20px;
       box-shadow: var(--shadow);
     }
 
-    .stat-card .label {
-      font-size: 0.8rem;
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 10px;
+    }
+
+    .panel-title {
+      font-size: 0.96rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-sub {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    /* Donut Chart */
+    .donut-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .donut-svg-box {
+      position: relative;
+      width: 156px;
+      height: 156px;
+      flex-shrink: 0;
+    }
+
+    .donut-svg-box svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .donut-track {
+      fill: none;
+      stroke: var(--surface-3);
+      stroke-width: 16;
+    }
+
+    .donut-seg {
+      fill: none;
+      stroke-width: 16;
+      stroke-linecap: butt;
+      transition: stroke-dasharray 0.6s ease, stroke-dashoffset 0.6s ease;
+    }
+
+    .donut-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .donut-percent {
+      font-size: 1.55rem;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .donut-label {
+      font-size: 0.72rem;
       color: var(--text-muted);
       font-weight: 600;
     }
 
-    .stat-card .value {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-top: 4px;
+    .donut-legend {
+      flex: 1;
+      min-width: 150px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .stat-card.todo .value { color: var(--todo); }
-    .stat-card.progress .value { color: var(--progress); }
-    .stat-card.done .value { color: var(--done); }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+    }
+
+    .legend-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .legend-val {
+      font-weight: 800;
+    }
+
+    /* Bar Chart */
+    .chart-toggle {
+      display: inline-flex;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 3px;
+    }
+
+    .chart-toggle button {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chart-toggle button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .bar-chart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 156px;
+      justify-content: center;
+    }
+
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .bar-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .bar-meta .muted {
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.76rem;
+    }
+
+    .bar-track {
+      height: 11px;
+      background: var(--surface-3);
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .bar-fill {
+      height: 100%;
+      transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .bar-empty {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      padding: 36px 10px;
+    }
 
     /* Toolbar */
     .toolbar {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 14px;
-      box-shadow: var(--shadow);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -272,67 +545,81 @@
       margin-bottom: 18px;
     }
 
-    .search-box {
+    .search-wrap {
       flex: 1;
-      min-width: 200px;
+      min-width: 210px;
+      position: relative;
+    }
+
+    .search-wrap input {
+      padding-right: 36px;
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      font-size: 0.9rem;
     }
 
     input[type="text"],
-    input[type="number"],
     select,
     textarea {
       width: 100%;
       background: var(--surface-2);
       border: 1px solid var(--border);
       color: var(--text);
-      border-radius: 10px;
+      border-radius: 11px;
       padding: 10px 12px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     input:focus, select:focus, textarea:focus {
       border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-soft);
     }
 
     .toolbar select {
       width: auto;
-      min-width: 145px;
+      min-width: 140px;
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--primary), #6366f1);
       color: #fff;
       border: none;
       border-radius: 12px;
-      padding: 10px 18px;
-      font-size: 0.92rem;
+      padding: 10px 20px;
+      font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: background 0.2s, transform 0.1s;
+      gap: 8px;
+      box-shadow: 0 6px 18px rgba(79, 70, 229, 0.25);
+      transition: all 0.2s;
     }
 
     .btn-primary:hover {
-      background: var(--primary-hover);
+      transform: translateY(-1px);
+      filter: brightness(1.06);
     }
 
     .btn-primary.exam-mode {
-      background: var(--exam-accent);
+      background: linear-gradient(135deg, var(--exam), #9333ea);
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.25);
     }
 
-    .btn-primary:active {
-      transform: scale(0.98);
-    }
-
-    /* Cards List */
+    /* Cards Grid */
     .items-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
     }
 
     .item-card {
@@ -340,32 +627,33 @@
       border: 1px solid var(--border);
       border-top: 4px solid var(--todo);
       border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: var(--shadow);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
       display: flex;
       flex-direction: column;
       gap: 12px;
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .item-card:hover {
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
     }
 
     .item-card.status-todo { border-top-color: var(--todo); }
     .item-card.status-in_progress { border-top-color: var(--progress); }
-    .item-card.status-done { border-top-color: var(--done); opacity: 0.88; }
+    .item-card.status-done { border-top-color: var(--done); opacity: 0.86; }
 
     .card-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 8px;
+      gap: 10px;
     }
 
     .subject-tag {
       display: inline-block;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
       padding: 3px 10px;
       border-radius: 999px;
@@ -376,13 +664,13 @@
 
     .item-card.type-exam .subject-tag {
       background: var(--exam-soft);
-      color: var(--exam-accent);
+      color: var(--exam);
     }
 
     .card-title {
-      font-size: 1.05rem;
+      font-size: 1.04rem;
       font-weight: 800;
-      line-height: 1.4;
+      line-height: 1.45;
     }
 
     .item-card.status-done .card-title {
@@ -393,7 +681,7 @@
     .priority-pill {
       font-size: 0.72rem;
       font-weight: 700;
-      padding: 3px 8px;
+      padding: 4px 9px;
       border-radius: 8px;
       white-space: nowrap;
     }
@@ -403,9 +691,9 @@
     .priority-low { background: var(--done-soft); color: var(--done); }
 
     .card-desc {
-      font-size: 0.86rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.65;
       white-space: pre-wrap;
     }
 
@@ -413,11 +701,11 @@
       background: var(--surface-2);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 0.82rem;
+      padding: 11px 13px;
+      font-size: 0.8rem;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
     }
 
     .meta-row {
@@ -433,11 +721,12 @@
     .countdown {
       font-size: 0.78rem;
       font-weight: 700;
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 8px;
       text-align: center;
       background: var(--primary-soft);
       color: var(--primary);
+      margin-top: 2px;
     }
 
     .countdown.overdue {
@@ -450,49 +739,73 @@
       color: var(--done);
     }
 
-    /* Quick 3-State Switcher */
+    /* 3-State Segmented Switcher */
     .status-switcher {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
+      background: var(--surface-2);
+      padding: 4px;
+      border-radius: 11px;
+      border: 1px solid var(--border);
     }
 
     .status-btn {
-      border: 1px solid var(--border);
-      background: var(--surface-2);
+      border: none;
+      background: transparent;
       color: var(--text-muted);
-      border-radius: 9px;
+      border-radius: 8px;
       padding: 7px 4px;
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all 0.18s;
+    }
+
+    .status-btn:hover {
+      color: var(--text);
     }
 
     .status-btn.active-todo {
       background: var(--todo);
-      border-color: var(--todo);
       color: #fff;
+      box-shadow: 0 3px 10px rgba(239, 68, 68, 0.28);
     }
 
     .status-btn.active-in_progress {
       background: var(--progress);
-      border-color: var(--progress);
       color: #fff;
+      box-shadow: 0 3px 10px rgba(245, 158, 11, 0.28);
     }
 
     .status-btn.active-done {
       background: var(--done);
-      border-color: var(--done);
       color: #fff;
+      box-shadow: 0 3px 10px rgba(16, 185, 129, 0.28);
     }
 
     .card-actions {
       display: flex;
-      justify-content: flex-end;
-      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
       border-top: 1px solid var(--border);
       padding-top: 10px;
+      margin-top: auto;
+    }
+
+    .alarm-chip {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .alarm-chip.active {
+      color: var(--primary);
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
     }
 
     .mini-btn {
@@ -501,9 +814,15 @@
       color: var(--text);
       border-radius: 8px;
       padding: 6px 11px;
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       font-weight: 600;
       cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .mini-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
     }
 
     .mini-btn.danger:hover {
@@ -512,22 +831,18 @@
       color: var(--todo);
     }
 
-    .mini-btn:hover {
-      border-color: var(--primary);
-    }
-
     .empty-state {
       grid-column: 1 / -1;
       background: var(--surface);
       border: 2px dashed var(--border);
       border-radius: var(--radius);
-      padding: 46px 20px;
+      padding: 54px 20px;
       text-align: center;
       color: var(--text-muted);
     }
 
     .empty-state .emoji {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 10px;
     }
 
@@ -535,8 +850,8 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(4px);
+      background: rgba(7, 11, 20, 0.68);
+      backdrop-filter: blur(6px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -551,26 +866,32 @@
     .modal {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 22px;
       width: 100%;
-      max-width: 560px;
+      max-width: 580px;
       max-height: 92vh;
       overflow-y: auto;
-      padding: 22px;
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      animation: modalIn 0.2s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .modal-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
       padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
     }
 
     .modal-header h2 {
-      font-size: 1.15rem;
+      font-size: 1.12rem;
       font-weight: 800;
     }
 
@@ -582,7 +903,7 @@
       height: 34px;
       border-radius: 10px;
       cursor: pointer;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
     .form-group {
@@ -591,7 +912,7 @@
 
     .form-group label {
       display: block;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       font-weight: 700;
       margin-bottom: 6px;
     }
@@ -599,12 +920,12 @@
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
     }
 
     .date-time-grid {
       display: grid;
-      grid-template-columns: 1.1fr 1.2fr 0.9fr 0.9fr 0.9fr;
+      grid-template-columns: 1.1fr 1.25fr 0.85fr 0.95fr 0.95fr;
       gap: 6px;
     }
 
@@ -623,7 +944,7 @@
       gap: 10px;
       cursor: pointer;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .alarm-fields {
@@ -641,7 +962,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .preset-btn {
@@ -650,7 +971,7 @@
       color: var(--text);
       border-radius: 8px;
       padding: 5px 10px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -664,43 +985,43 @@
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      margin-top: 16px;
+      margin-top: 18px;
     }
 
-    /* Alarm Ringing Modal */
+    /* Ringing Modal */
     .ring-modal {
       text-align: center;
-      max-width: 430px;
+      max-width: 440px;
       border: 2px solid var(--todo);
-      animation: pulseBorder 1.2s infinite;
+      animation: pulseBorder 1.3s infinite;
     }
 
     @keyframes pulseBorder {
       0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.45); }
-      50% { box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+      50% { box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
     }
 
     .ring-bell {
       font-size: 3.4rem;
       display: inline-block;
-      animation: shake 0.5s infinite;
-      margin-bottom: 8px;
+      animation: shake 0.45s infinite;
+      margin-bottom: 6px;
     }
 
     @keyframes shake {
       0%, 100% { transform: rotate(0deg); }
-      25% { transform: rotate(14deg); }
-      75% { transform: rotate(-14deg); }
+      25% { transform: rotate(15deg); }
+      75% { transform: rotate(-15deg); }
     }
 
     .ring-msg {
       background: var(--todo-soft);
       color: var(--todo);
       border-radius: 12px;
-      padding: 12px;
-      font-weight: 700;
+      padding: 13px;
+      font-weight: 800;
       margin: 14px 0;
-      font-size: 0.98rem;
+      font-size: 0.96rem;
     }
 
     .ring-actions {
@@ -710,11 +1031,43 @@
       margin-top: 16px;
     }
 
-    @media (max-width: 720px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .form-row { grid-template-columns: 1fr; }
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-right: 4px solid var(--done);
+      padding: 11px 16px;
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      font-size: 0.84rem;
+      font-weight: 700;
+      animation: toastIn 0.25s ease;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 860px) {
+      .analytics-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      .tabs, .form-row { grid-template-columns: 1fr; }
       .date-time-grid { grid-template-columns: repeat(3, 1fr); }
-      .tabs { grid-template-columns: 1fr; }
+      .items-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -722,63 +1075,136 @@
   <div class="container">
     <header>
       <div class="brand">
-        <div class="brand-icon">📚</div>
+        <div class="brand-logo">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <path d="M9 7h6"></path>
+            <path d="M9 11h6"></path>
+          </svg>
+        </div>
         <div>
-          <h1>برنامه‌ریز تکالیف و امتحانات</h1>
-          <p>تقویم شمسی و ساعت رسمی ایران + آلارم هوشمند</p>
+          <h1>برنامه‌ریز هوشمند تکالیف و امتحانات</h1>
+          <p>مدیریت حرفه‌ای با تقویم شمسی، ساعت رسمی ایران، آلارم و نمودار پیشرفت</p>
         </div>
       </div>
 
-      <div class="header-right">
+      <div class="header-actions">
         <div class="iran-clock">
-          <div class="time" id="iranTime">--:--:--</div>
-          <div class="date" id="iranDate">در حال بارگذاری...</div>
+          <span class="clock-dot"></span>
+          <div>
+            <div class="time" id="iranTime">--:--:--</div>
+            <div class="date" id="iranDate">در حال همگام‌سازی...</div>
+          </div>
         </div>
-        <button class="icon-btn" id="testSoundBtn" title="تست صدای آلارم">🔊 تست صدا</button>
-        <button class="icon-btn" id="notifBtn" title="فعال‌سازی اعلان مرورگر">🔔 اعلان</button>
-        <button class="icon-btn" id="themeBtn" title="تغییر تم">🌙 حالت شب</button>
+        <button class="btn-ghost" id="exportBtn" title="خروجی پشتیبان">⬇️ پشتیبان</button>
+        <button class="btn-ghost" id="importBtn" title="بازیابی اطلاعات">⬆️ بازیابی</button>
+        <input type="file" id="importFile" accept=".json" style="display:none;" />
+        <button class="btn-ghost" id="themeBtn">🌙 حالت شب</button>
       </div>
     </header>
 
+    <div class="upcoming-banner" id="upcomingBanner">
+      <div class="upcoming-info">
+        <span class="upcoming-pill">نزدیک‌ترین موعد</span>
+        <strong id="upcomingTitle"></strong>
+        <span id="upcomingMeta" style="color: var(--text-muted);"></span>
+      </div>
+      <span id="upcomingCountdown" style="font-weight: 800; font-size: 0.84rem; color: var(--primary);"></span>
+    </div>
+
     <div class="tabs">
       <button class="tab-btn active homework" data-tab="homework">
-        <span class="tab-left">📝 تکالیف</span>
-        <span class="tab-badge" id="countHomework">0</span>
+        <div class="tab-left">
+          <span class="tab-icon">📝</span>
+          <div>
+            تکالیف درسی
+            <span class="tab-sub" id="subHomework">۰ مورد انجام شده</span>
+          </div>
+        </div>
+        <span class="tab-badge" id="countHomework">۰</span>
       </button>
+
       <button class="tab-btn exam" data-tab="exam">
-        <span class="tab-left">🎓 امتحانات</span>
-        <span class="tab-badge" id="countExam">0</span>
+        <div class="tab-left">
+          <span class="tab-icon">🎓</span>
+          <div>
+            برنامه امتحانات
+            <span class="tab-sub" id="subExam">۰ مورد انجام شده</span>
+          </div>
+        </div>
+        <span class="tab-badge" id="countExam">۰</span>
       </button>
     </div>
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="label">کل موارد این بخش</div>
-        <div class="value" id="statTotal">0</div>
+    <!-- Analytics & Charts Dashboard -->
+    <div class="analytics-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">📊 نمودار پیشرفت وضعیت‌ها</div>
+            <div class="panel-sub" id="donutScopeLabel">آمار بخش تکالیف</div>
+          </div>
+          <span class="tab-badge" id="statTotalBadge">کل: ۰</span>
+        </div>
+
+        <div class="donut-wrap">
+          <div class="donut-svg-box">
+            <svg viewBox="0 0 120 120">
+              <circle class="donut-track" cx="60" cy="60" r="48"></circle>
+              <circle class="donut-seg" id="segDone" cx="60" cy="60" r="48" stroke="var(--done)" stroke-dasharray="0 301.6" stroke-dashoffset="0"></circle>
+              <circle class="donut-seg" id="segProgress" cx="60" cy="60" r="48" stroke="var(--progress)" stroke-dasharray="0 301.6" stroke-dashoffset="0"></circle>
+              <circle class="donut-seg" id="segTodo" cx="60" cy="60" r="48" stroke="var(--todo)" stroke-dasharray="0 301.6" stroke-dashoffset="0"></circle>
+            </svg>
+            <div class="donut-center">
+              <span class="donut-percent" id="donutPercent">۰٪</span>
+              <span class="donut-label">تکمیل شده</span>
+            </div>
+          </div>
+
+          <div class="donut-legend">
+            <div class="legend-item">
+              <span class="legend-left"><span class="legend-dot" style="background: var(--done);"></span>انجام شد</span>
+              <span class="legend-val" style="color: var(--done);" id="statDone">۰</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-left"><span class="legend-dot" style="background: var(--progress);"></span>در حال انجام</span>
+              <span class="legend-val" style="color: var(--progress);" id="statProgress">۰</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-left"><span class="legend-dot" style="background: var(--todo);"></span>انجام نشده</span>
+              <span class="legend-val" style="color: var(--todo);" id="statTodo">۰</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="stat-card todo">
-        <div class="label">انجام نشده</div>
-        <div class="value" id="statTodo">0</div>
-      </div>
-      <div class="stat-card progress">
-        <div class="label">در حال انجام</div>
-        <div class="value" id="statProgress">0</div>
-      </div>
-      <div class="stat-card done">
-        <div class="label">انجام شد</div>
-        <div class="value" id="statDone">0</div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">📈 نمودار تحلیلی</div>
+            <div class="panel-sub">پیشرفت به تفکیک درس یا مقایسه کل</div>
+          </div>
+          <div class="chart-toggle">
+            <button class="active" id="modeSubjects">تفکیک دروس</button>
+            <button id="modeCompare">تکالیف / امتحانات</button>
+          </div>
+        </div>
+        <div class="bar-chart-list" id="barChartContainer"></div>
       </div>
     </div>
 
+    <!-- Toolbar -->
     <div class="toolbar">
-      <div class="search-box">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
         <input type="text" id="searchInput" placeholder="جستجو در عنوان، نام درس یا توضیحات..." />
       </div>
       <select id="statusFilter">
         <option value="all">همه وضعیت‌ها</option>
-        <option value="todo">انجام نشده</option>
-        <option value="in_progress">در حال انجام</option>
-        <option value="done">انجام شد</option>
+        <option value="todo">🔴 انجام نشده</option>
+        <option value="in_progress">🟡 در حال انجام</option>
+        <option value="done">🟢 انجام شد</option>
       </select>
       <select id="sortSelect">
         <option value="dueAsc">نزدیک‌ترین موعد</option>
@@ -788,6 +1214,7 @@
       <button class="btn-primary" id="addItemBtn">➕ افزودن تکلیف جدید</button>
     </div>
 
+    <!-- Cards -->
     <div class="items-grid" id="itemsGrid"></div>
   </div>
 
@@ -803,7 +1230,7 @@
 
         <div class="form-row">
           <div class="form-group">
-            <label>بخش</label>
+            <label>دسته‌بندی</label>
             <select id="itemType">
               <option value="homework">📝 تکلیف</option>
               <option value="exam">🎓 امتحان</option>
@@ -811,7 +1238,7 @@
           </div>
           <div class="form-group">
             <label>نام درس</label>
-            <input type="text" id="itemSubject" placeholder="مثلاً: ریاضی، فیزیک..." required />
+            <input type="text" id="itemSubject" placeholder="مثلاً: ریاضی، فیزیک، زبان..." required />
           </div>
         </div>
 
@@ -821,13 +1248,13 @@
         </div>
 
         <div class="form-group">
-          <label>توضیحات (اختیاری)</label>
-          <textarea id="itemDesc" rows="2" placeholder="صفحات کتاب، نکات مهم، منابع..."></textarea>
+          <label>توضیحات و جزئیات (اختیاری)</label>
+          <textarea id="itemDesc" rows="2" placeholder="شماره صفحات، منابع امتحانی، نکات کلیدی..."></textarea>
         </div>
 
         <div class="form-row">
           <div class="form-group">
-            <label>وضعیت</label>
+            <label>وضعیت فعلی</label>
             <select id="itemStatus">
               <option value="todo">🔴 انجام نشده</option>
               <option value="in_progress">🟡 در حال انجام</option>
@@ -845,20 +1272,20 @@
         </div>
 
         <div class="form-group">
-          <label>تاریخ شمسی و ساعت موعد (به وقت ایران)</label>
+          <label>تاریخ شمسی و ساعت موعد (به وقت رسمی ایران)</label>
           <div class="date-time-grid">
             <select id="dueYear" title="سال شمسی"></select>
             <select id="dueMonth" title="ماه شمسی"></select>
             <select id="dueDay" title="روز"></select>
-            <select id="dueHour" title="ساعت (ایران)"></select>
+            <select id="dueHour" title="ساعت ایران"></select>
             <select id="dueMin" title="دقیقه"></select>
           </div>
         </div>
 
         <div class="alarm-box">
           <label class="alarm-toggle">
-            <span>⏰ تنظیم آلارم و پیام یادآوری (به وقت ایران)</span>
-            <input type="checkbox" id="alarmEnabled" style="width: 18px; height: 18px;" />
+            <span>⏰ فعال‌سازی آلارم و پیام یادآوری (به وقت ایران)</span>
+            <input type="checkbox" id="alarmEnabled" style="width: 18px; height: 18px; accent-color: var(--primary);" />
           </label>
 
           <div class="alarm-fields" id="alarmFields">
@@ -870,7 +1297,7 @@
             </div>
 
             <div class="form-group">
-              <label>تاریخ شمسی و ساعت آلارم</label>
+              <label>تاریخ شمسی و ساعت زنگ آلارم</label>
               <div class="date-time-grid">
                 <select id="alarmYear" title="سال"></select>
                 <select id="alarmMonth" title="ماه"></select>
@@ -881,15 +1308,15 @@
             </div>
 
             <div class="form-group" style="margin-bottom: 0;">
-              <label>متن پیام یادآوری</label>
+              <label>متن پیام یادآوری آلارم</label>
               <input type="text" id="alarmMessage" placeholder="مثلاً: وقتشه تکلیفت رو انجام بدی!" />
             </div>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="icon-btn" id="cancelModalBtn">انصراف</button>
-          <button type="submit" class="btn-primary" id="saveItemBtn">💾 ذخیره</button>
+          <button type="button" class="btn-ghost" id="cancelModalBtn">انصراف</button>
+          <button type="submit" class="btn-primary">💾 ذخیره اطلاعات</button>
         </div>
       </form>
     </div>
@@ -900,23 +1327,25 @@
     <div class="modal ring-modal">
       <div class="ring-bell">⏰</div>
       <h2 id="ringTitle">یادآوری!</h2>
-      <p id="ringSubject" style="color: var(--text-muted); margin-top: 4px; font-size: 0.9rem;"></p>
+      <p id="ringSubject" style="color: var(--text-muted); margin-top: 6px; font-size: 0.88rem;"></p>
       <div class="ring-msg" id="ringMessage">تکلیفت رو انجام بده!</div>
       <div class="ring-actions">
-        <button class="icon-btn" style="justify-content: center;" id="snoozeBtn">💤 ۵ دقیقه بعد یادآوری کن</button>
-        <button class="btn-primary" style="justify-content: center; background: var(--todo);" id="stopAlarmBtn">✅ متوجه شدم (توقف)</button>
+        <button class="btn-ghost" style="justify-content: center;" id="snoozeBtn">💤 ۵ دقیقه بعد</button>
+        <button class="btn-primary" style="justify-content: center; background: var(--todo); box-shadow: none;" id="stopAlarmBtn">✅ متوجه شدم</button>
       </div>
     </div>
   </div>
 
+  <div class="toast-container" id="toastContainer"></div>
+
   <script>
-    // ================== Jalali Calendar & Iran Time Utilities ==================
+    // ================== Jalali Calendar & Iran Time (UTC+03:30) ==================
     const JALALI_MONTHS = [
       'فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور',
       'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند'
     ];
     const PERSIAN_DAYS = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
-    const IRAN_OFFSET_MS = 3.5 * 3600 * 1000; // Asia/Tehran UTC+03:30
+    const IRAN_OFFSET_MS = 3.5 * 3600 * 1000;
 
     function gregorianToJalali(gy, gm, gd) {
       const g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
@@ -977,15 +1406,14 @@
 
     function timestampToJalaliIran(ts) {
       const d = new Date(ts + IRAN_OFFSET_MS);
-      const gy = d.getUTCFullYear();
-      const gm = d.getUTCMonth() + 1;
-      const gd = d.getUTCDate();
-      const hh = d.getUTCHours();
-      const mm = d.getUTCMinutes();
-      const ss = d.getUTCSeconds();
-      const dow = d.getUTCDay();
-      const [jy, jm, jd] = gregorianToJalali(gy, gm, gd);
-      return { jy, jm, jd, hh, mm, ss, dow };
+      const [jy, jm, jd] = gregorianToJalali(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate());
+      return {
+        jy, jm, jd,
+        hh: d.getUTCHours(),
+        mm: d.getUTCMinutes(),
+        ss: d.getUTCSeconds(),
+        dow: d.getUTCDay()
+      };
     }
 
     function toFaDigits(str) {
@@ -998,7 +1426,7 @@
 
     function formatJalaliDateTime(ts) {
       const t = timestampToJalaliIran(ts);
-      return `${toFaDigits(t.jd)} ${JALALI_MONTHS[t.jm - 1]} ${toFaDigits(t.jy)} - ساعت ${toFaDigits(pad2(t.hh))}:${toFaDigits(pad2(t.mm))}`;
+      return `${toFaDigits(t.jd)} ${JALALI_MONTHS[t.jm - 1]} ${toFaDigits(t.jy)} • ${toFaDigits(pad2(t.hh))}:${toFaDigits(pad2(t.mm))}`;
     }
 
     function formatCountdown(targetTs, status) {
@@ -1023,36 +1451,36 @@
       return { text: `⏳ ${parts.join(' و ')} باقی‌مانده`, cls: '' };
     }
 
-    // ================== Web Audio Alarm Sound ==================
+    // ================== Alarm Audio Engine ==================
     let audioCtx = null;
     let alarmInterval = null;
 
-    function playBeepPattern() {
+    function playAlarmChime() {
       try {
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         if (audioCtx.state === 'suspended') audioCtx.resume();
         const now = audioCtx.currentTime;
-        const notes = [880, 1174.66, 880, 1318.5];
+        const notes = [880, 1174.66, 987.77, 1318.5];
         notes.forEach((freq, i) => {
           const osc = audioCtx.createOscillator();
           const gain = audioCtx.createGain();
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now + i * 0.18);
-          gain.gain.setValueAtTime(0.001, now + i * 0.18);
-          gain.gain.exponentialRampToValueAtTime(0.28, now + i * 0.18 + 0.03);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.18 + 0.16);
+          osc.frequency.setValueAtTime(freq, now + i * 0.16);
+          gain.gain.setValueAtTime(0.001, now + i * 0.16);
+          gain.gain.exponentialRampToValueAtTime(0.26, now + i * 0.16 + 0.03);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.16 + 0.15);
           osc.connect(gain);
           gain.connect(audioCtx.destination);
-          osc.start(now + i * 0.18);
-          osc.stop(now + i * 0.18 + 0.17);
+          osc.start(now + i * 0.16);
+          osc.stop(now + i * 0.16 + 0.16);
         });
       } catch (e) {}
     }
 
     function startAlarmSound() {
       stopAlarmSound();
-      playBeepPattern();
-      alarmInterval = setInterval(playBeepPattern, 1600);
+      playAlarmChime();
+      alarmInterval = setInterval(playAlarmChime, 1500);
     }
 
     function stopAlarmSound() {
@@ -1062,17 +1490,32 @@
       }
     }
 
-    // ================== State & Storage ==================
-    const STORAGE_KEY = 'iran_study_planner_v1';
-    let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    // ================== Toast Helper ==================
+    function showToast(msg) {
+      const box = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = 'toast';
+      el.textContent = msg;
+      box.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = 'opacity 0.25s';
+        setTimeout(() => el.remove(), 260);
+      }, 2600);
+    }
+
+    // ================== State ==================
+    const STORAGE_KEY = 'iran_study_planner_pro_v2';
+    let items = JSON.parse(localStorage.getItem(STORAGE_KEY) || localStorage.getItem('iran_study_planner_v1') || '[]');
     let currentTab = 'homework';
+    let chartMode = 'subjects'; // 'subjects' | 'compare'
     let activeRingingItemId = null;
 
     function saveItems() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     }
 
-    // ================== Populate Date/Time Selectors ==================
+    // ================== Date/Time Selectors ==================
     function populateDateTimeSelectors(prefix) {
       const nowIran = timestampToJalaliIran(Date.now());
       const ySel = document.getElementById(prefix + 'Year');
@@ -1123,34 +1566,156 @@
       const ySel = document.getElementById(prefix + 'Year');
       const mSel = document.getElementById(prefix + 'Month');
       const dSel = document.getElementById(prefix + 'Day');
-      const hSel = document.getElementById(prefix + 'Hour');
-      const minSel = document.getElementById(prefix + 'Min');
-
       ySel.value = t.jy;
       mSel.value = t.jm;
       mSel.dispatchEvent(new Event('change'));
       dSel.value = t.jd;
-      hSel.value = t.hh;
-      minSel.value = t.mm;
+      document.getElementById(prefix + 'Hour').value = t.hh;
+      document.getElementById(prefix + 'Min').value = t.mm;
     }
 
     function getTimestampFromSelector(prefix) {
-      const y = parseInt(document.getElementById(prefix + 'Year').value, 10);
-      const m = parseInt(document.getElementById(prefix + 'Month').value, 10);
-      const d = parseInt(document.getElementById(prefix + 'Day').value, 10);
-      const h = parseInt(document.getElementById(prefix + 'Hour').value, 10);
-      const min = parseInt(document.getElementById(prefix + 'Min').value, 10);
-      return jalaliIranToTimestamp(y, m, d, h, min);
+      return jalaliIranToTimestamp(
+        parseInt(document.getElementById(prefix + 'Year').value, 10),
+        parseInt(document.getElementById(prefix + 'Month').value, 10),
+        parseInt(document.getElementById(prefix + 'Day').value, 10),
+        parseInt(document.getElementById(prefix + 'Hour').value, 10),
+        parseInt(document.getElementById(prefix + 'Min').value, 10)
+      );
     }
 
-    // ================== Live Iran Clock ==================
+    // ================== Clock ==================
     function updateIranClock() {
       const t = timestampToJalaliIran(Date.now());
       document.getElementById('iranTime').textContent = `${toFaDigits(pad2(t.hh))}:${toFaDigits(pad2(t.mm))}:${toFaDigits(pad2(t.ss))}`;
-      document.getElementById('iranDate').textContent = `${PERSIAN_DAYS[t.dow]} ${toFaDigits(t.jd)} ${JALALI_MONTHS[t.jm - 1]} ${toFaDigits(t.jy)} (ایران)`;
+      document.getElementById('iranDate').textContent = `${PERSIAN_DAYS[t.dow]} ${toFaDigits(t.jd)} ${JALALI_MONTHS[t.jm - 1]} ${toFaDigits(t.jy)} • تهران`;
     }
 
-    // ================== Render UI ==================
+    // ================== Charts Rendering ==================
+    function renderCharts(tabItems, hwItems, exItems) {
+      const total = tabItems.length;
+      const done = tabItems.filter(i => i.status === 'done').length;
+      const prog = tabItems.filter(i => i.status === 'in_progress').length;
+      const todo = tabItems.filter(i => i.status === 'todo').length;
+
+      document.getElementById('donutScopeLabel').textContent = currentTab === 'homework' ? 'آمار بخش تکالیف' : 'آمار بخش امتحانات';
+      document.getElementById('statTotalBadge').textContent = `کل: ${toFaDigits(total)}`;
+      document.getElementById('statDone').textContent = toFaDigits(done);
+      document.getElementById('statProgress').textContent = toFaDigits(prog);
+      document.getElementById('statTodo').textContent = toFaDigits(todo);
+
+      const pct = total ? Math.round((done / total) * 100) : 0;
+      document.getElementById('donutPercent').textContent = `${toFaDigits(pct)}٪`;
+
+      const C = 2 * Math.PI * 48; // ~301.59
+      const segDone = document.getElementById('segDone');
+      const segProg = document.getElementById('segProgress');
+      const segTodo = document.getElementById('segTodo');
+
+      if (!total) {
+        segDone.setAttribute('stroke-dasharray', `0 ${C}`);
+        segProg.setAttribute('stroke-dasharray', `0 ${C}`);
+        segTodo.setAttribute('stroke-dasharray', `0 ${C}`);
+      } else {
+        const lenDone = (done / total) * C;
+        const lenProg = (prog / total) * C;
+        const lenTodo = (todo / total) * C;
+
+        segDone.setAttribute('stroke-dasharray', `${lenDone} ${C}`);
+        segDone.setAttribute('stroke-dashoffset', '0');
+
+        segProg.setAttribute('stroke-dasharray', `${lenProg} ${C}`);
+        segProg.setAttribute('stroke-dashoffset', `${-lenDone}`);
+
+        segTodo.setAttribute('stroke-dasharray', `${lenTodo} ${C}`);
+        segTodo.setAttribute('stroke-dashoffset', `${-(lenDone + lenProg)}`);
+      }
+
+      // Bar Chart
+      const container = document.getElementById('barChartContainer');
+      if (chartMode === 'subjects') {
+        const map = {};
+        tabItems.forEach(item => {
+          const sub = item.subject.trim() || 'بدون نام';
+          if (!map[sub]) map[sub] = { total: 0, done: 0, prog: 0, todo: 0 };
+          map[sub].total++;
+          if (item.status === 'done') map[sub].done++;
+          else if (item.status === 'in_progress') map[sub].prog++;
+          else map[sub].todo++;
+        });
+
+        const entries = Object.entries(map).sort((a, b) => b[1].total - a[1].total).slice(0, 5);
+        if (!entries.length) {
+          container.innerHTML = `<div class="bar-empty">با افزودن ${currentTab === 'homework' ? 'تکلیف' : 'امتحان'}، نمودار تفکیک دروس اینجا نمایش داده می‌شود.</div>`;
+          return;
+        }
+
+        const maxTotal = Math.max(...entries.map(e => e[1].total), 1);
+        container.innerHTML = entries.map(([sub, s]) => {
+          const wDone = (s.done / maxTotal) * 100;
+          const wProg = (s.prog / maxTotal) * 100;
+          const wTodo = (s.todo / maxTotal) * 100;
+          const subPct = Math.round((s.done / s.total) * 100);
+          return `
+            <div class="bar-row">
+              <div class="bar-meta">
+                <span>${escapeHtml(sub)}</span>
+                <span class="muted">${toFaDigits(s.done)} از ${toFaDigits(s.total)} تکمیل (${toFaDigits(subPct)}٪)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:${wDone}%; background:var(--done);"></div>
+                <div class="bar-fill" style="width:${wProg}%; background:var(--progress);"></div>
+                <div class="bar-fill" style="width:${wTodo}%; background:var(--todo);"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        const groups = [
+          { label: '📝 کل تکالیف', arr: hwItems, color: 'var(--primary)' },
+          { label: '🎓 کل امتحانات', arr: exItems, color: 'var(--exam)' }
+        ];
+        const maxVal = Math.max(hwItems.length, exItems.length, 1);
+        container.innerHTML = groups.map(g => {
+          const totalG = g.arr.length;
+          const doneG = g.arr.filter(i => i.status === 'done').length;
+          const pctG = totalG ? Math.round((doneG / totalG) * 100) : 0;
+          const wTotal = (totalG / maxVal) * 100;
+          return `
+            <div class="bar-row">
+              <div class="bar-meta">
+                <span>${g.label}</span>
+                <span class="muted">${toFaDigits(doneG)} انجام شده از ${toFaDigits(totalG)} مورد (${toFaDigits(pctG)}٪)</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width:${wTotal}%; background:${g.color};"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // ================== Upcoming Banner ==================
+    function renderUpcomingBanner() {
+      const banner = document.getElementById('upcomingBanner');
+      const active = items
+        .filter(i => i.status !== 'done')
+        .sort((a, b) => a.dueTs - b.dueTs);
+
+      if (!active.length) {
+        banner.classList.remove('show');
+        return;
+      }
+      const next = active[0];
+      const cd = formatCountdown(next.dueTs, next.status);
+      document.getElementById('upcomingTitle').textContent = `${next.type === 'homework' ? 'تکلیف' : 'امتحان'} ${next.subject}: ${next.title}`;
+      document.getElementById('upcomingMeta').textContent = `(${formatJalaliDateTime(next.dueTs)})`;
+      document.getElementById('upcomingCountdown').textContent = cd.text;
+      banner.classList.add('show');
+    }
+
+    // ================== Render Main UI ==================
     function escapeHtml(str) {
       return String(str || '').replace(/[&<>"']/g, m => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -1160,14 +1725,16 @@
     function render() {
       const hwItems = items.filter(i => i.type === 'homework');
       const exItems = items.filter(i => i.type === 'exam');
+
       document.getElementById('countHomework').textContent = toFaDigits(hwItems.length);
       document.getElementById('countExam').textContent = toFaDigits(exItems.length);
+      document.getElementById('subHomework').textContent = `${toFaDigits(hwItems.filter(i => i.status === 'done').length)} مورد انجام شده`;
+      document.getElementById('subExam').textContent = `${toFaDigits(exItems.filter(i => i.status === 'done').length)} مورد انجام شده`;
 
       const tabItems = currentTab === 'homework' ? hwItems : exItems;
-      document.getElementById('statTotal').textContent = toFaDigits(tabItems.length);
-      document.getElementById('statTodo').textContent = toFaDigits(tabItems.filter(i => i.status === 'todo').length);
-      document.getElementById('statProgress').textContent = toFaDigits(tabItems.filter(i => i.status === 'in_progress').length);
-      document.getElementById('statDone').textContent = toFaDigits(tabItems.filter(i => i.status === 'done').length);
+
+      renderCharts(tabItems, hwItems, exItems);
+      renderUpcomingBanner();
 
       const addBtn = document.getElementById('addItemBtn');
       addBtn.textContent = currentTab === 'homework' ? '➕ افزودن تکلیف جدید' : '➕ افزودن امتحان جدید';
@@ -1179,10 +1746,7 @@
 
       let filtered = tabItems.filter(item => {
         if (statusFilter !== 'all' && item.status !== statusFilter) return false;
-        if (q) {
-          const hay = `${item.title} ${item.subject} ${item.desc}`.toLowerCase();
-          if (!hay.includes(q)) return false;
-        }
+        if (q && !`${item.title} ${item.subject} ${item.desc}`.toLowerCase().includes(q)) return false;
         return true;
       });
 
@@ -1198,8 +1762,8 @@
         grid.innerHTML = `
           <div class="empty-state">
             <div class="emoji">${currentTab === 'homework' ? '📝' : '🎓'}</div>
-            <h3>موردی در بخش ${currentTab === 'homework' ? 'تکالیف' : 'امتحانات'} ثبت نشده است</h3>
-            <p style="margin-top:6px;font-size:0.85rem;">برای شروع روی دکمه «افزودن» کلیک کنید.</p>
+            <h3>موردی در بخش ${currentTab === 'homework' ? 'تکالیف' : 'امتحانات'} یافت نشد</h3>
+            <p style="margin-top:6px;font-size:0.84rem;">روی دکمه «افزودن» کلیک کنید تا برنامه‌ریزی را شروع کنید.</p>
           </div>
         `;
         return;
@@ -1209,12 +1773,9 @@
 
       grid.innerHTML = filtered.map(item => {
         const cd = formatCountdown(item.dueTs, item.status);
-        const alarmHtml = item.alarmEnabled
-          ? `<div class="meta-row">
-               <span class="k">⏰ آلارم:</span>
-               <span class="v">${item.alarmFired ? 'پخش شد' : formatJalaliDateTime(item.alarmTs)}</span>
-             </div>`
-          : '';
+        const alarmStatus = !item.alarmEnabled
+          ? '🔕 بدون آلارم'
+          : (item.alarmFired ? '⏰ آلارم پخش شد' : `⏰ ${formatJalaliDateTime(item.alarmTs)}`);
 
         return `
           <div class="item-card status-${item.status} type-${item.type}">
@@ -1233,7 +1794,6 @@
                 <span class="k">📅 موعد (ایران):</span>
                 <span class="v">${formatJalaliDateTime(item.dueTs)}</span>
               </div>
-              ${alarmHtml}
               <div class="countdown ${cd.cls}">${cd.text}</div>
             </div>
 
@@ -1244,21 +1804,26 @@
             </div>
 
             <div class="card-actions">
-              <button class="mini-btn" onclick="openEditModal('${item.id}')">✏️ ویرایش</button>
-              <button class="mini-btn danger" onclick="deleteItem('${item.id}')">🗑️ حذف</button>
+              <span class="alarm-chip ${item.alarmEnabled && !item.alarmFired ? 'active' : ''}">${alarmStatus}</span>
+              <div class="action-btns">
+                <button class="mini-btn" onclick="openEditModal('${item.id}')">✏️ ویرایش</button>
+                <button class="mini-btn danger" onclick="deleteItem('${item.id}')">🗑️ حذف</button>
+              </div>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // ================== CRUD Actions ==================
+    // ================== CRUD ==================
     window.setStatus = function(id, status) {
       const item = items.find(i => i.id === id);
       if (!item) return;
       item.status = status;
       saveItems();
       render();
+      const labels = { todo: 'انجام نشده', in_progress: 'در حال انجام', done: 'انجام شد' };
+      showToast(`وضعیت به «${labels[status]}» تغییر یافت`);
     };
 
     window.deleteItem = function(id) {
@@ -1266,6 +1831,7 @@
       items = items.filter(i => i.id !== id);
       saveItems();
       render();
+      showToast('مورد با موفقیت حذف شد');
     };
 
     const itemModal = document.getElementById('itemModal');
@@ -1278,7 +1844,7 @@
       document.getElementById('itemType').value = currentTab;
       document.getElementById('modalTitle').textContent = currentTab === 'homework' ? 'افزودن تکلیف جدید' : 'افزودن امتحان جدید';
 
-      const defaultDue = Date.now() + 2 * 3600 * 1000; // 2 hours from now
+      const defaultDue = Date.now() + 2 * 3600 * 1000;
       setSelectorFromTimestamp('due', defaultDue);
       setSelectorFromTimestamp('alarm', defaultDue - 30 * 60 * 1000);
 
@@ -1364,8 +1930,10 @@
           data.createdAt = items[idx].createdAt;
           items[idx] = data;
         }
+        showToast('تغییرات با موفقیت ذخیره شد');
       } else {
         items.push(data);
+        showToast(type === 'homework' ? 'تکلیف جدید ثبت شد' : 'امتحان جدید ثبت شد');
       }
 
       currentTab = type;
@@ -1381,17 +1949,10 @@
       document.getElementById('ringTitle').textContent = item.type === 'homework'
         ? `یادآوری تکلیف: ${item.title}`
         : `یادآوری امتحان: ${item.title}`;
-      document.getElementById('ringSubject').textContent = `درس: ${item.subject} | موعد: ${formatJalaliDateTime(item.dueTs)}`;
+      document.getElementById('ringSubject').textContent = `درس ${item.subject} • موعد: ${formatJalaliDateTime(item.dueTs)}`;
       document.getElementById('ringMessage').textContent = item.alarmMessage || 'تکلیفت رو انجام بده!';
       document.getElementById('ringModal').classList.add('open');
-
       startAlarmSound();
-
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification(item.type === 'homework' ? '⏰ یادآوری تکلیف' : '⏰ یادآوری امتحان', {
-          body: `${item.subject} - ${item.title}\n${item.alarmMessage}`
-        });
-      }
     }
 
     function checkAlarms() {
@@ -1427,12 +1988,13 @@
           item.alarmFired = false;
           saveItems();
           render();
+          showToast('آلارم برای ۵ دقیقه بعد تنظیم شد');
         }
       }
       activeRingingItemId = null;
     });
 
-    // ================== Tabs, Filters, Theme & Notifications ==================
+    // ================== Tabs, Charts Toggle, Filters, Backup & Theme ==================
     function syncTabButtons() {
       document.querySelectorAll('.tab-btn').forEach(b => {
         b.classList.toggle('active', b.dataset.tab === currentTab);
@@ -1447,25 +2009,59 @@
       });
     });
 
+    document.getElementById('modeSubjects').addEventListener('click', () => {
+      chartMode = 'subjects';
+      document.getElementById('modeSubjects').classList.add('active');
+      document.getElementById('modeCompare').classList.remove('active');
+      render();
+    });
+
+    document.getElementById('modeCompare').addEventListener('click', () => {
+      chartMode = 'compare';
+      document.getElementById('modeCompare').classList.add('active');
+      document.getElementById('modeSubjects').classList.remove('active');
+      render();
+    });
+
     document.getElementById('searchInput').addEventListener('input', render);
     document.getElementById('statusFilter').addEventListener('change', render);
     document.getElementById('sortSelect').addEventListener('change', render);
 
-    document.getElementById('testSoundBtn').addEventListener('click', () => {
-      playBeepPattern();
+    // Export / Import JSON Backup
+    document.getElementById('exportBtn').addEventListener('click', () => {
+      const blob = new Blob([JSON.stringify(items, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'study-planner-backup.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('فایل پشتیبان دانلود شد');
     });
 
-    document.getElementById('notifBtn').addEventListener('click', async () => {
-      if (!('Notification' in window)) {
-        alert('مرورگر شما از اعلان (Notification) پشتیبانی نمی‌کند.');
-        return;
-      }
-      const perm = await Notification.requestPermission();
-      if (perm === 'granted') {
-        alert('اعلان‌های مرورگر با موفقیت فعال شد!');
-      } else {
-        alert('دسترسی به اعلان‌ها رد شد.');
-      }
+    document.getElementById('importBtn').addEventListener('click', () => {
+      document.getElementById('importFile').click();
+    });
+
+    document.getElementById('importFile').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const parsed = JSON.parse(ev.target.result);
+          if (Array.isArray(parsed)) {
+            items = parsed;
+            saveItems();
+            render();
+            showToast('اطلاعات با موفقیت بازیابی شد');
+          }
+        } catch {
+          showToast('فایل انتخاب‌شده معتبر نیست');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
     });
 
     const themeBtn = document.getElementById('themeBtn');
